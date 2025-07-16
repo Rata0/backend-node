@@ -1,12 +1,12 @@
-import sequelize from "../db";
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
+import sequelize from '../db'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
 
 interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  role: string;
+  id: number
+  name: string
+  email: string
+  password: string
+  role: string
 }
 
 const User = sequelize.define<UserModel>('user', {
@@ -15,6 +15,6 @@ const User = sequelize.define<UserModel>('user', {
   email: { type: DataTypes.STRING, unique: true },
   password: { type: DataTypes.STRING },
   role: { type: DataTypes.STRING, defaultValue: 'USER' },
-});
+})
 
-export default User;
+export default User
