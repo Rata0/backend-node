@@ -7,7 +7,7 @@ console.log('PORT: ', PORT)
 
 const app = express()
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (_, res) => res.send('Hello World!'))
 
 const start = async () => {
   try {

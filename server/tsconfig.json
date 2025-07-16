@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "allowJs": true,
-    "noImplicitAny": false,
-    "checkJs": true,
     "strict": true,
-    "noEmit": true,
+    "outDir": "./dist",
     "moduleResolution": "Node",
     "module": "ESNext",
     "esModuleInterop": true,
@@ -13,6 +10,9 @@
     "noUnusedParameters": true
   },
   "include": [
-    "**/*",
+    "src/**/*"
   ],
+  "exclude": [
+    "node_modules", "dist"
+  ]
 }
