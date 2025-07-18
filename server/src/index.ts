@@ -1,22 +1,26 @@
 import 'dotenv/config'
 import express from 'express'
 import sequelize from './db'
+import User from './models/user'
+import router from './routes/index'
+import errorHandler from './middleware/errorHandler'
 
 const PORT = process.env.PORT ?? 3000
-console.log('PORT: ', PORT)
 
 const app = express()
-
-app.get('/', (_, res) => res.send('Hello World!'))
+app.use(express.json())
+app.use('/api', router)
+app.use(errorHandler)
 
 const start = async () => {
   try {
     await sequelize.authenticate()
-    await sequelize.sync()
+    await User.sync({ alter: true })
+    
     app.listen(PORT, () => console.log(`Server runs on ${PORT}`))
-  }
-  catch (e) {
-    console.log(e)
+  } catch (e) {
+    console.error(e)
+    process.exit(1)
   }
 }
 
