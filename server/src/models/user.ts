@@ -2,10 +2,10 @@ import sequelize from '../db'
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
 
 interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
-  id?: number
-  name: string
-  email: string
-  password: string
+  id?: number,
+  name: string,
+  email: string,
+  password: string,
   role: string,
 }
 
