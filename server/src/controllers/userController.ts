@@ -3,6 +3,7 @@ import CustomError from '../error/СustomError';
 import User from '../models/user';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../utils/jwt';
+import { AuthenticatedRequest } from '../middleware/jwtAuthMiddleware';
 
 class userController {
   static async login(req: Request, res: Response, next: NextFunction) {
@@ -60,6 +61,17 @@ class userController {
     });
 
     return res.json({ token: jwtToken })
+  }
+
+  static async check(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    if (!req.user) {
+      return next(CustomError.unauthorized('User not authenticated'));
+    }
+    
+    const { id, name, email, role } = req.user;
+    const jwtToken = generateJwtToken({ id, name, email, role });
+
+    return res.status(200).json({ token: jwtToken })
   }
 }
 
