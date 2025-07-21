@@ -4,6 +4,8 @@ import User from '../models/user';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../utils/jwt';
 import { AuthenticatedRequest } from '../middleware/jwtAuthMiddleware';
+import Cart from '../models/cart';
+import sequelize from '../db';
 
 class userController {
   static async login(req: Request, res: Response, next: NextFunction) {
@@ -46,21 +48,31 @@ class userController {
 
     const hashPassword = await bcrypt.hash(password, 12)
 
-    const user = await User.create({ 
-      name, 
-      email, 
-      password: hashPassword, 
-      role: role || 'USER' 
-    })
+    const transaction = await sequelize.transaction()
 
-    const jwtToken = generateJwtToken({
-      id: user.id,
-      name,
-      email,
-      role,
-    });
+    try {
+      const user = await User.create({ 
+        name, 
+        email, 
+        password: hashPassword, 
+        role: role || 'USER' 
+      })
 
-    return res.json({ token: jwtToken })
+      if (!user.id) {
+        throw new Error('User ID is undefined');
+      }
+
+      await Cart.create({ user_id: user.id })
+
+      const jwtToken = generateJwtToken({ id: user.id, name, email, role });
+
+      return res.json({ token: jwtToken })
+    } catch (e) {
+      transaction.rollback()
+      console.error('Registration error:', e);
+      return next(CustomError.internal('Registration failed'));
+    }
+
   }
 
   static async check(req: AuthenticatedRequest, res: Response, next: NextFunction) {
