@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import CustomError from '../error/СustomError';
 import User from '../models/user';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { generateJwtToken } from '../utils/jwt';
 
 class userController {
   static async login(req: Request, res: Response, next: NextFunction) {
@@ -14,22 +14,18 @@ class userController {
       return next(CustomError.badRequest('The user with this email address is not registered'))
     }
 
-    const checkPassword = bcrypt.compareSync(password, user.password);
+    const checkPassword = bcrypt.compareSync(password, user.password)
 
     if (!checkPassword) {
       return next(CustomError.badRequest('Invalid password'))
     }
 
-    const jwtToken = jwt.sign(
-      {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role
-      },
-      'testsds',
-      { expiresIn: '1h' }
-    )
+    const jwtToken = generateJwtToken({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    });
 
     res.json(jwtToken)
   }
@@ -56,16 +52,12 @@ class userController {
       role: role || 'USER' 
     })
 
-    const jwtToken = jwt.sign(
-      {
-        id: user.id,
-        name,
-        email,
-        role
-      },
-      'testsds',
-      { expiresIn: '1h' }
-    )
+    const jwtToken = generateJwtToken({
+      id: user.id,
+      name,
+      email,
+      role,
+    });
 
     return res.json({ token: jwtToken })
   }
