@@ -16,6 +16,10 @@ class CustomError extends Error {
   static forbidden(message: string) {
     return new CustomError(403, message)
   }
+
+  static internal(message: string) {
+    return new CustomError(500, message)
+  }
 }
 
 export default CustomError
