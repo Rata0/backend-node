@@ -1,9 +1,9 @@
 import 'dotenv/config'
 import express from 'express'
 import sequelize from './db'
-import User from './models/user'
 import router from './routes/index'
 import errorHandler from './middleware/errorHandler'
+import { setupAssociations } from './models/associations'
 
 const PORT = process.env.PORT ?? 3000
 
@@ -15,7 +15,8 @@ app.use(errorHandler)
 const start = async () => {
   try {
     await sequelize.authenticate()
-    await User.sync({ alter: true })
+    setupAssociations()
+    await sequelize.sync()
     
     app.listen(PORT, () => console.log(`Server runs on ${PORT}`))
   } catch (e) {
