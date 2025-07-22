@@ -6,6 +6,7 @@ import { generateJwtToken } from '../utils/jwt';
 import { AuthenticatedRequest } from '../middleware/jwtAuthMiddleware';
 import Cart from '../models/cart';
 import sequelize from '../db';
+import { UserCreateSchema } from '../validators/user.schema';
 
 class userController {
   static async login(req: Request, res: Response, next: NextFunction) {
@@ -34,11 +35,13 @@ class userController {
   }
 
   static async create(req: Request, res: Response, next: NextFunction) {
-    const { name, email, password, role } = req.body
+    const validation = UserCreateSchema.safeParse(req.body)
 
-    if (!name || !email || !password) {
-      return next(CustomError.badRequest('Invalid email, name, password'));
+    if (!validation.success) {
+      return next(CustomError.badRequest('Invalid data'))
     }
+
+    const { name, email, password, role } = validation.data
 
     const existingUser = await User.findOne({ where: { email } })
 
@@ -64,7 +67,7 @@ class userController {
 
       await Cart.create({ user_id: user.id })
 
-      const jwtToken = generateJwtToken({ id: user.id, name, email, role });
+      const jwtToken = generateJwtToken({ id: user.id, name, email, role: user.role });
 
       return res.json({ token: jwtToken })
     } catch (e) {
@@ -72,7 +75,6 @@ class userController {
       console.error('Registration error:', e);
       return next(CustomError.internal('Registration failed'));
     }
-
   }
 
   static async check(req: AuthenticatedRequest, res: Response, next: NextFunction) {
