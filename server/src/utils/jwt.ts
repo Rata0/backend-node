@@ -8,5 +8,5 @@ interface TokenPayload {
 }
 
 export const generateJwtToken = (payload: TokenPayload): string => {
-  return jwt.sign(payload, 'testsds', { expiresIn: '1h' })
+  return jwt.sign(payload, process.env.SECRET_JWT!, { expiresIn: '1h' })
 }

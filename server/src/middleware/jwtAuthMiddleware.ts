@@ -30,7 +30,7 @@ export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: N
       return res.status(401).json({ message: 'Invalid token format' })
     }
 
-    const decoded = jwt.verify(token, 'testsds') as UserPayload;
+    const decoded = jwt.verify(token, process.env.SECRET_JWT!) as UserPayload;
     req.user = decoded
     
     return next()
