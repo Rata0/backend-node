@@ -30,7 +30,7 @@ class userController {
       role: user.role
     });
 
-    res.json(jwtToken)
+    return res.json({ token: jwtToken })
   }
 
   static async create(req: Request, res: Response, next: NextFunction) {
