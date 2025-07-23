@@ -3,7 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 
 import sequelize from './db';
-import errorHandler from './middleware/errorHandler';
+import errorHandler from './middleware/errorHandlerMiddleware';
 import { setupAssociations } from './models/associations';
 import router from './routes/index';
 
