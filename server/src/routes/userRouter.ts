@@ -1,11 +1,12 @@
-import { Router } from 'express'
-import userController from '../controllers/userController'
-import { authMiddleware } from '../middleware/jwtAuthMiddleware'
+import { Router } from 'express';
 
-const router = Router()
+import userController from '../controllers/userController';
+import { authMiddleware } from '../middleware/jwtAuthMiddleware';
 
-router.post('/auth/create', userController.create)
-router.post('/auth/login', userController.login)
-router.get('/auth', authMiddleware, userController.check)
+const router = Router();
 
-export default router
+router.post('/auth/create', userController.create);
+router.post('/auth/login', userController.login);
+router.get('/auth', authMiddleware, userController.check);
+
+export default router;

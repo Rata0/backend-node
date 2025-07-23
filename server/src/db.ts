@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize(
   process.env.DB_NAME!,
@@ -9,6 +9,6 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST!,
     port: Number(process.env.DB_PORT!),
   },
-)
+);
 
-export default sequelize
+export default sequelize;

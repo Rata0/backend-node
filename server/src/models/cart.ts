@@ -1,5 +1,6 @@
-import sequelize from '../db'
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+
+import sequelize from '../db';
 
 interface CartModel extends Model<InferAttributes<CartModel>, InferCreationAttributes<CartModel>> {
   id?: number,
@@ -30,6 +31,6 @@ const Cart = sequelize.define<CartModel>('cart', {
     type: DataTypes.INTEGER,
     defaultValue: 0
   },
-})
+});
 
-export default Cart
+export default Cart;
