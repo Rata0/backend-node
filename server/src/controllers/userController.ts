@@ -4,8 +4,8 @@ import { NextFunction, Request, Response } from 'express';
 import sequelize from '../db';
 import CustomError from '../error/СustomError';
 import { AuthenticatedRequest } from '../middleware/jwtAuthMiddleware';
-import Cart from '../models/cart';
-import User from '../models/user';
+import Cart from '../models/cartModel';
+import User from '../models/userModel';
 import { generateJwtToken } from '../utils/jwt';
 import { UserCreateSchema } from '../validators/user.schema';
 
