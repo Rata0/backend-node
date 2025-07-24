@@ -5,6 +5,9 @@ on: push
 jobs:
   build: 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
 
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +22,3 @@ jobs:
 
       - name: Run linter
         run: npm run lint
-
-defaults:
-  run:
-    working-directory: ./server
