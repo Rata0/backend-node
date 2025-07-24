@@ -5,8 +5,6 @@ import sequelize from '../db';
 interface CartModel extends Model<InferAttributes<CartModel>, InferCreationAttributes<CartModel>> {
   id?: number,
   user_id: number,
-  product_id?: number,
-  quantity?: number,
 }
 
 const Cart = sequelize.define<CartModel>('cart', {
@@ -18,18 +16,6 @@ const Cart = sequelize.define<CartModel>('cart', {
   user_id: { 
     type: DataTypes.INTEGER, 
     allowNull: false,
-    references: {
-      model: 'users',
-      key: 'id'
-    }
-  },
-  product_id: { 
-    type: DataTypes.INTEGER, 
-    allowNull: true,
-  },
-  quantity: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0
   },
 });
 
